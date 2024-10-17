@@ -33,33 +33,69 @@
 	<li><code>1 &lt;= n &lt;= sz</code></li>
 </ul>
 
+## Solution
 
-**Related Topics**:  
-[Linked List](https://leetcode.com/tag/linked-list/), [Two Pointers](https://leetcode.com/tag/two-pointers/)
+This problem has 3 edge cases need to consider n =1 ,n=n and if size of list is 1.
 
-**Similar Questions**:
-* [Swapping Nodes in a Linked List (Medium)](https://leetcode.com/problems/swapping-nodes-in-a-linked-list/)
-* [Delete N Nodes After M Nodes of a Linked List (Easy)](https://leetcode.com/problems/delete-n-nodes-after-m-nodes-of-a-linked-list/)
-
-## Solution 1.
-
-```cpp
-// OJ: https://leetcode.com/problems/remove-nth-node-from-end-of-list/
-// Author: github.com/lzl124631x
-// Time: O(N)
-// Space: O(1)
+```java
+Complexity
+    Time complexity:O(n)
+    Space complexity:O(1)
 class Solution {
-public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode *p = head, *q = head;
-        while (n--) q = q->next;
-        if (!q) return head->next;
-        while (q->next) {
-            p = p->next;
-            q = q->next;
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode p = head, q = head;
+
+        // Move q n steps ahead
+        for (int i = 0; i < n; i++) {
+            q = q.next;
         }
-        p->next = p->next->next;
+
+        // If q is null, it means we need to remove the head
+        if (q == null) {
+            return head.next;
+        }
+
+        // Move p and q together until q reaches the end
+        while (q.next != null) {
+            p = p.next;
+            q = q.next;
+        }
+
+        // p is now just before the node to be removed
+        p.next = p.next.next;
+
         return head;
     }
-};
+}
+
+```
+
+Approach
+
+
+```java
+Complexity
+    Time complexity:O(n)
+    Space complexity:O(1)
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+        ListNode dummy = new ListNode(0);
+        ListNode dummyHead = dummy;
+        dummy.next = head; 
+        ListNode ptr1= dummy,ptr2 = dummy, prev;
+        for(int i = 0 ;i<n && ptr1!=null;i++){
+            ptr1 = ptr1.next;
+        }
+        prev = ptr2;
+        while(ptr1!= null){
+            ptr1 = ptr1.next;
+            prev = ptr2;
+            ptr2 = ptr2.next;
+        }
+        prev.next = ptr2.next;
+
+        return dummyHead.next;
+    }
+}
 ```
